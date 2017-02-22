@@ -76,7 +76,7 @@ func main() {
         }
         sort.Strings(keys)
         for _, k := range keys {
-            // fmt.Printf("%v:00,%v,%v,%v,%v,%v\n", temp_time,k,count[k],total[k],min[k],max[k])
+            fmt.Printf("%v:00,%v,%v,%v,%v,%v\n", temp_time,k,count[k],total[k],min[k],max[k])
             count[k] = 0
             total[k] = 0
             min[k] = 0
