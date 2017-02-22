@@ -1,5 +1,6 @@
 package main
 
+// Import necessary packages.
 import (
   "bufio"
   "os"
@@ -17,7 +18,6 @@ var total map[string]int
 
 
 func main() {
-  fmt.Println(os.Args[1])
   host := ""
   temp_minute := "-1"
   temp_time := ""
@@ -31,7 +31,6 @@ func main() {
   // Notes: 25sec to read each line in 18,227,200 lines and iterate trough array.
   // Notes: 1min and 14sec to read each line in 18,227,200 lines and apply all the logic.
   if file, err := os.Open(os.Args[1]); err == nil {
-  // if file, err := os.Open("tiny.txt"); err == nil {
 
     // make sure it gets closed
     defer file.Close()
@@ -44,9 +43,10 @@ func main() {
       arr := strings.Split(scanner.Text(), " ")
       a := "";
 
-      date_time := arr[0][0:16]
-      current_minute = arr[0][14:16]
+      date_time := arr[0][0:16] // grab a date
+      current_minute = arr[0][14:16]  // remember a minute
 
+      /// Go trough all elements in 1 line. Check if it has Host and Service.
       for _, element := range arr {
         a = element
         element = a
@@ -63,6 +63,10 @@ func main() {
         }
       }
 
+      ///////////////////////////////////////////
+      ///// Main Logic
+      ///////////////////////////////////////////
+      
       // Check if is a first line:
       if (temp_minute == "-1") {
         min[host] = service_integer
@@ -70,6 +74,7 @@ func main() {
         count[host] = 1
         total[host] = service_integer
       } else if (temp_minute != current_minute) {
+        // New Minute arrived. Print to the screen every key from a Map from previous minute.
         var keys []string
         for k := range min {
           keys = append(keys, k)
@@ -88,6 +93,7 @@ func main() {
         count[host] = 1
         total[host] = service_integer
       } else {
+        /// It is a same minute. Just add to the counters.
         if _, ok := min[host]; ok {
               if (min[host] == 0) {
                 min[host] = service_integer
@@ -108,6 +114,7 @@ func main() {
           }
       }
 
+      // Remember current minute in a Temp variable.
       temp_minute = current_minute
       temp_time = date_time
     }
@@ -120,7 +127,7 @@ func main() {
     // log.Fatal(err)
   }
 
-  // Check last line:
+  // Check last line and if is a same - print:
   if (temp_minute == current_minute) {
         var keys []string
         for k := range min {
